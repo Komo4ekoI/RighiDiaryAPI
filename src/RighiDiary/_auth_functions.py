@@ -174,19 +174,14 @@ async def fast_auth(
         logger.debug(msg="Error when retrieving user data")
         return None
 
-    try:
-        user_id = response["results"]["properties"]["code"]
-    except KeyError:
-        return None
-
-    if not user_id:
+    if not response.mastercom_id:
         return None
 
     auth_data = AuthData(
         messenger_cookie=messenger_cookie,
         PHPSESSID_cookie=PHPSESSID_cookie,
         current_key=current_key,
-        user_id=user_id,
+        user_id=response.mastercom_id,
     )
 
     return auth_data
