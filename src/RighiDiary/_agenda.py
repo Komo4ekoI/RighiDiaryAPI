@@ -27,6 +27,18 @@ class Agenda:
         self.end_time = end_time
         self.professor_name = professor_name
 
+    @property
+    def duration(self) -> datetime.time:
+        seconds_start = self.start_time.hour * 3600 + self.start_time.minute * 60
+        seconds_end = self.end_time.hour * 3600 + self.end_time.minute * 60
+
+        difference_seconds = abs(seconds_end - seconds_start)
+
+        hours, remainder = divmod(difference_seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+
+        return datetime.time(hours, minutes, seconds)
+
     def __str__(self):
         attributes = ", ".join(f"{key}={value}" for key, value in vars(self).items())
         return f"{self.__class__.__name__}({attributes})"
