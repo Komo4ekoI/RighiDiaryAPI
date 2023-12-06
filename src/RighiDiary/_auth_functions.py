@@ -62,7 +62,10 @@ async def get_user_data(
 
                         name = properties["name"]
                         surname = properties["surname"]
-                        mastercom_id = properties["code"]
+                        try:
+                            mastercom_id = int(properties["code"])
+                        except:
+                            pass
                         classes = properties["classes"]
                         email = properties["email"] if properties["email"] else None
                         phone = properties["phone"] if properties["phone"] else None
