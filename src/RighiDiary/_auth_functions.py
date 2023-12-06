@@ -127,7 +127,10 @@ async def get_current_key(
                 return None
             else:
                 soup = BeautifulSoup(await resp.text(), "html.parser")
-                current_key = soup.find("input", {"id": "current_key"})["value"]
+                try:
+                    current_key = soup.find("input", {"id": "current_key"})["value"]
+                except:
+                    return None
                 return current_key if current_key else None
 
 
