@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from typing import Union, List
 from logging import getLogger
 
+from ._current_year import get_start_year
 from . import __logger__
 from . import _auth_functions
 
@@ -58,14 +59,6 @@ short_italian_month = {
     "nov": 11,
     "dic": 12,
 }
-
-
-def get_start_year() -> int:
-    today = datetime.date.today()
-
-    start_year = (today.year - 1) if today.month < 9 else today.year
-
-    return start_year
 
 
 async def get_user_agenda(
@@ -160,19 +153,19 @@ async def get_user_agenda(
 
                             split_start_time = start_time_string.split(":")
                             start_hour = int(split_start_time[0])
-                            start_minutes = int(split_start_time[1])
+                            start_minute = int(split_start_time[1])
 
                             start_time = datetime.time(
-                                hour=start_hour, minute=start_minutes
+                                hour=start_hour, minute=start_minute
                             )
 
                             end_time_string = time_text[5:]
 
                             split_end_time = end_time_string.split(":")
                             end_hour = int(split_end_time[0])
-                            end_minutes = int(split_end_time[1])
+                            end_minute = int(split_end_time[1])
 
-                            end_time = datetime.time(hour=end_hour, minute=end_minutes)
+                            end_time = datetime.time(hour=end_hour, minute=end_minute)
 
                             name = data_object.find_next(name="strong").get_text(
                                 strip=True
