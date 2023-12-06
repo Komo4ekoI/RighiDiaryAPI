@@ -4,8 +4,8 @@ from bs4 import BeautifulSoup
 from typing import Union, List
 from logging import getLogger
 
-from src.RighiDiary import __logger__
-from src.RighiDiary import auth_functions
+from . import __logger__
+from . import _auth_functions
 
 logging = getLogger(__logger__ + ".Agenda")
 
