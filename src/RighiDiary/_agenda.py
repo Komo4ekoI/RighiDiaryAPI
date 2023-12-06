@@ -20,20 +20,16 @@ class Agenda:
         end_time: datetime.time,
         professor_name: str,
     ):
-        self._professor_name = professor_name
-        self._end_time = end_time
-        self._start_time = start_time
-        self._date = date
-        self._description = description
-        self._name = name
+        self.name = name if name else None
+        self.description = description if description else None
+        self.date = date
+        self.start_time = start_time
+        self.end_time = end_time
+        self.professor_name = professor_name
 
-    @property
-    def name(self) -> Union[str, None]:
-        return self._name if self._name is not None else None
-
-    @property
-    def description(self) -> Union[str, None]:
-        return self._description if self._description is not None else None
+    def __str__(self):
+        attributes = ', '.join(f"{key}={value}" for key, value in vars(self).items())
+        return f"{self.__class__.__name__}({attributes})"
 
 
 short_italian_month = {
