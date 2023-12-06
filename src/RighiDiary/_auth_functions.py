@@ -15,12 +15,12 @@ class AuthData:
         messenger_cookie: str,
         PHPSESSID_cookie: str,
         current_key: str,
-        user_id: int,
+        mastercom_id: int,
     ):
         self.messenger_cookie = messenger_cookie
         self.PHPSESSID_cookie = PHPSESSID_cookie
         self.current_key = current_key
-        self.user_id = user_id
+        self.mastercom_id = mastercom_id
 
 
 class UserData:
@@ -194,7 +194,7 @@ async def fast_auth(
         messenger_cookie=messenger_cookie,
         PHPSESSID_cookie=PHPSESSID_cookie,
         current_key=current_key,
-        user_id=response.mastercom_id,
+        mastercom_id=response.mastercom_id,
     )
 
     return auth_data

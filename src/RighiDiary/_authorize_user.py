@@ -35,7 +35,7 @@ async def authorize_user(login: int, password: str) -> Union[User, None]:
 
     if auth_response is not None:
         current_key = auth_response.current_key
-        mastercom_id = auth_response.user_id
+        mastercom_id = auth_response.mastercom_id
 
     user_data_response: UserData = response[0]
     if user_data_response:

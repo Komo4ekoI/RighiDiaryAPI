@@ -79,7 +79,7 @@ async def get_user_agenda(
         PHPSESSID_cookie = response.PHPSESSID_cookie
         messenger_cookie = response.PHPSESSID_cookie
         current_key = response.current_key
-        user_id = response.user_id
+        user_id = response.mastercom_id
 
     async with aiohttp.ClientSession() as session:
         async with session.post(
