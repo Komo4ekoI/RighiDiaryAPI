@@ -67,6 +67,7 @@ async def get_user_data(
                         email = properties['email'] if properties['email'] else None
                         phone = properties['phone'] if properties['phone'] else None
                     except:
+                        logger.debug(msg="Error when processing a response to retrieve user data!")
                         return False
                     else:
                         user_data = UserData(name, surname, mastercom_id, classes, email, phone)
@@ -82,6 +83,7 @@ async def get_PHPSESSID_cookie():
             if match:
                 return match.group(1)
             else:
+                logger.debug(msg="Error when receiving PHPSESSID cookie!")
                 return False
 
 
@@ -95,6 +97,7 @@ async def get_messenger_cookie(PHPSESSID_cookie: str):
             if match:
                 return match.group(1)
             else:
+                logger.debug(msg="Error when receiving messenger cookie!")
                 return False
 
 
@@ -107,6 +110,7 @@ async def authorization(PHPSESSID_cookie: str, messenger_cookie: str, current_ke
             },
         ) as resp:
             if resp.status != 200:
+                logger.debug(msg="Error during cookie authorisation!")
                 return False
             else:
                 return True
@@ -124,13 +128,17 @@ async def get_current_key(
             data={"user": str(login), "password_user": password, "form_login": "true"},
         ) as resp:
             if resp.status != 200:
+                logger.debug(msg="Error when obtaining the current key!")
                 return None
             else:
                 soup = BeautifulSoup(await resp.text(), "html.parser")
+
                 try:
                     current_key = soup.find("input", {"id": "current_key"})["value"]
                 except:
+                    logger.debug(msg="Error when obtaining the current key!")
                     return None
+
                 return current_key if current_key else None
 
 
@@ -171,10 +179,11 @@ async def fast_auth(
         messenger_cookie=messenger_cookie, PHPSESSID_cookie=PHPSESSID_cookie
     )
     if not response:
-        logger.debug(msg="Error when retrieving user data")
+        logger.debug(msg="Error when retrieving user data!")
         return None
 
     if not response.mastercom_id:
+        logger.debug(msg="Absence of mastercom id on response!")
         return None
 
     auth_data = AuthData(
