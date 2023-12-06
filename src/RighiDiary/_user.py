@@ -2,6 +2,7 @@ from typing import Union, List
 
 from ._baseprofile import BaseProfile
 from ._agenda import Agenda, get_user_agenda
+from ._homework import Homework, get_user_homework
 
 
 class User(BaseProfile):
@@ -21,6 +22,7 @@ class User(BaseProfile):
         phone: Union[str, None],
         email: Union[str, None],
         agenda: Union[List[Agenda], None],
+        homework: Union[List[Homework], None]
     ):
         self.surname = surname
         self.name = name
@@ -31,6 +33,7 @@ class User(BaseProfile):
         self.email = email
         super().__init__(login=login, password=password)
         self.agenda = agenda
+        self.homework = homework
 
     @property
     def full_name(self) -> Union[str, None]:
@@ -56,6 +59,14 @@ class User(BaseProfile):
         self.agenda = new_agenda
 
         return new_agenda
+
+    async def update_user_homework(self) -> List[Homework]:
+        new_homework = await get_user_homework(
+            login=super().login, password=super().password
+        )
+        self.homework = new_homework
+
+        return new_homework
 
     def __str__(self):
         attributes = ", ".join(f"{key}={value}" for key, value in vars(self).items())
