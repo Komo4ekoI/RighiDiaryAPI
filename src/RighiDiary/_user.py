@@ -22,23 +22,15 @@ class User(BaseProfile):
         email: Union[str, None],
         agenda: Union[List[Agenda], None],
     ):
-        super().__init__(login=login, password=password)
+        self.surname = surname
+        self.name = name
         self.current_key = current_key
         self.mastercom_id = mastercom_id
-        self._surname = surname
-        self._name = name
         self.classes = classes
         self.phone = phone
         self.email = email
+        super().__init__(login=login, password=password)
         self.agenda = agenda
-
-    @property
-    def name(self) -> Union[str, None]:
-        return self._name if self._name else None
-
-    @property
-    def surname(self) -> Union[str, None]:
-        return self._name if self._name else None
 
     @property
     def full_name(self) -> Union[str, None]:
@@ -62,4 +54,8 @@ class User(BaseProfile):
         self.agenda = new_agenda
 
         return new_agenda
+
+    def __str__(self):
+        attributes = ', '.join(f"{key}={value}" for key, value in vars(self).items())
+        return f"{self.__class__.__name__}({attributes})"
 
