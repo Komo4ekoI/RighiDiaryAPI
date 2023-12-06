@@ -4,7 +4,7 @@ import logging
 from bs4 import BeautifulSoup
 from typing import Union
 
-from src.RighiDiary import __logger__
+from . import __logger__
 
 logger = logging.getLogger(__logger__ + ".Auth")
 
