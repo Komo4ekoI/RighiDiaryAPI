@@ -36,7 +36,7 @@ setuptools.setup(
         'Operating System :: OS Independent',
     ],
     python_requires='>=3.7',
-    install_requires=['aiohttp>=3.8.5', 'beautifulsoup4>=4.12.2'],
+    install_requires=['aiohttp==3.8.5', 'beautifulsoup4==4.12.2'],
     extras_require={
         'dev': ['check-manifest'],
         # 'test': ['coverage'],
