@@ -9,6 +9,7 @@ class User(BaseProfile):
     """
     User - base class, stores all data about the user. Allows you to update data via MastercomAPI
     """
+
     def __init__(
         self,
         login: int,
@@ -50,12 +51,13 @@ class User(BaseProfile):
         return full_name if full_name else None
 
     async def update_user_agenda(self) -> List[Agenda]:
-        new_agenda = await get_user_agenda(login=super().login, password=super().password)
+        new_agenda = await get_user_agenda(
+            login=super().login, password=super().password
+        )
         self.agenda = new_agenda
 
         return new_agenda
 
     def __str__(self):
-        attributes = ', '.join(f"{key}={value}" for key, value in vars(self).items())
+        attributes = ", ".join(f"{key}={value}" for key, value in vars(self).items())
         return f"{self.__class__.__name__}({attributes})"
-

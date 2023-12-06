@@ -28,7 +28,7 @@ class Agenda:
         self.professor_name = professor_name
 
     def __str__(self):
-        attributes = ', '.join(f"{key}={value}" for key, value in vars(self).items())
+        attributes = ", ".join(f"{key}={value}" for key, value in vars(self).items())
         return f"{self.__class__.__name__}({attributes})"
 
 
@@ -124,9 +124,7 @@ async def get_user_agenda(
 
                         current_school_start_year = get_start_year()
 
-                        if (
-                            int(short_italian_month[split_date[1]]) >= 8
-                        ):
+                        if int(short_italian_month[split_date[1]]) >= 8:
                             year = current_school_start_year
                         else:
                             year = current_school_start_year + 1

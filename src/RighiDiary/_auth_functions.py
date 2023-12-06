@@ -54,23 +54,27 @@ async def get_user_data(
             if resp.status != 200 or not (resp_json := await resp.json())["success"]:
                 return False
             else:
-                results = resp_json['results']
+                results = resp_json["results"]
 
                 if results:
                     try:
-                        properties = results['properties']
+                        properties = results["properties"]
 
-                        name = properties['name']
-                        surname = properties['surname']
-                        mastercom_id = properties['code']
-                        classes = properties['classes']
-                        email = properties['email'] if properties['email'] else None
-                        phone = properties['phone'] if properties['phone'] else None
+                        name = properties["name"]
+                        surname = properties["surname"]
+                        mastercom_id = properties["code"]
+                        classes = properties["classes"]
+                        email = properties["email"] if properties["email"] else None
+                        phone = properties["phone"] if properties["phone"] else None
                     except:
-                        logger.debug(msg="Error when processing a response to retrieve user data!")
+                        logger.debug(
+                            msg="Error when processing a response to retrieve user data!"
+                        )
                         return False
                     else:
-                        user_data = UserData(name, surname, mastercom_id, classes, email, phone)
+                        user_data = UserData(
+                            name, surname, mastercom_id, classes, email, phone
+                        )
                         return user_data
 
 
