@@ -1,5 +1,4 @@
 from typing import Union, List
-import asyncio
 
 from ._baseprofile import BaseProfile
 from ._agenda import Agenda, get_user_agenda
