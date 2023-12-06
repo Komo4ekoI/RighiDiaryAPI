@@ -129,8 +129,7 @@ async def get_user_agenda(
                         current_school_start_year = get_start_year()
 
                         if (
-                            int(short_italian_month[split_date[1]].replace(".", ""))
-                            >= 8
+                            int(short_italian_month[split_date[1]]) >= 8
                         ):
                             year = current_school_start_year
                         else:
@@ -154,8 +153,8 @@ async def get_user_agenda(
                             start_time_string = time_text[:5]
 
                             split_start_time = start_time_string.split(":")
-                            start_hour = split_start_time[0]
-                            start_minutes = split_start_time[1]
+                            start_hour = int(split_start_time[0])
+                            start_minutes = int(split_start_time[1])
 
                             start_time = datetime.time(
                                 hour=start_hour, minute=start_minutes
@@ -164,8 +163,8 @@ async def get_user_agenda(
                             end_time_string = time_text[5:]
 
                             split_end_time = end_time_string.split(":")
-                            end_hour = split_end_time[0]
-                            end_minutes = split_end_time[1]
+                            end_hour = int(split_end_time[0])
+                            end_minutes = int(split_end_time[1])
 
                             end_time = datetime.time(hour=end_hour, minute=end_minutes)
 
@@ -185,8 +184,8 @@ async def get_user_agenda(
                             description = (
                                 data_object.get_text(strip=True)
                                 .replace("(" + professor_name + ")", "")
-                                .replace(start_time, "")
-                                .replace(end_time, "")
+                                .replace(start_time_string, "")
+                                .replace(end_time_string, "")
                                 .replace(name, "")
                             )
 
