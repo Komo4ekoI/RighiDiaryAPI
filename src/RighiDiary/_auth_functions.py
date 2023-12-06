@@ -113,18 +113,18 @@ async def authorization(PHPSESSID_cookie: str, messenger_cookie: str, current_ke
 
 
 async def get_current_key(
-    PHPSESSID_cookie: str, messenger_cookie: str, password: str, login: str
-):
+    PHPSESSID_cookie: str, messenger_cookie: str, password: str, login: int
+) -> Union[str, None]:
     async with aiohttp.ClientSession() as session:
         async with session.post(
             url="https://righi-fc.registroelettronico.com/mastercom/index.php",
             headers={
                 "Cookie": f"PHPSESSID={PHPSESSID_cookie}; messenger={messenger_cookie}"
             },
-            data={"user": login, "password_user": password, "form_login": "true"},
+            data={"user": str(login), "password_user": password, "form_login": "true"},
         ) as resp:
             if resp.status != 200:
-                return False
+                return None
             else:
                 soup = BeautifulSoup(await resp.text(), "html.parser")
                 current_key = soup.find("input", {"id": "current_key"})["value"]
@@ -132,7 +132,7 @@ async def get_current_key(
 
 
 async def fast_auth(
-    password: str = None, login: str = None, current_key: str = None
+    password: str = None, login: int = None, current_key: str = None
 ) -> Union[AuthData, None]:
     if current_key is None and password is None and login is None:
         return None
