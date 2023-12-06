@@ -23,9 +23,27 @@ class AuthData:
         self.user_id = user_id
 
 
+class UserData:
+    def __init__(
+        self,
+        name: str,
+        surname: str,
+        mastercom_id: int,
+        classes: str,
+        email: Union[str, None],
+        phone: Union[str, None],
+    ):
+        self.name = name
+        self.surname = surname
+        self.mastercom_id = mastercom_id
+        self.classes = classes
+        self.email = email
+        self.phone = phone
+
+
 async def get_user_data(
     messenger_cookie: str, PHPSESSID_cookie: str
-) -> Union[bool, dict]:
+) -> Union[UserData, bool]:
     async with aiohttp.ClientSession() as session:
         async with session.get(
             url="https://righi-fc.registroelettronico.com/messenger/1.0/authentication",
@@ -36,7 +54,23 @@ async def get_user_data(
             if resp.status != 200 or not (resp_json := await resp.json())["success"]:
                 return False
             else:
-                return resp_json
+                results = resp_json['results']
+
+                if results:
+                    try:
+                        properties = results['properties']
+
+                        name = properties['name']
+                        surname = properties['surname']
+                        mastercom_id = properties['code']
+                        classes = properties['classes']
+                        email = properties['email'] if properties['email'] else None
+                        phone = properties['phone'] if properties['phone'] else None
+                    except:
+                        return False
+                    else:
+                        user_data = UserData(name, surname, mastercom_id, classes, email, phone)
+                        return user_data
 
 
 async def get_PHPSESSID_cookie():
