@@ -61,7 +61,7 @@ def get_start_year() -> int:
 
 
 async def get_user_agenda(
-    login: str,
+    login: int,
     password: str,
     PHPSESSID_cookie: str = None,
     messenger_cookie: str = None,
@@ -69,9 +69,10 @@ async def get_user_agenda(
     user_id: int = None,
 ) -> Union[List[Agenda], None]:
     if not PHPSESSID_cookie or not messenger_cookie or not current_key or not user_id:
-        response = await auth_functions.fast_auth(password=password, login=login)
+        response = await _auth_functions.fast_auth(password=password, login=login)
 
         if not response:
+            logging.debug(msg="An error occurred when authorising to receive Agenda!")
             return None
 
         PHPSESSID_cookie = response.PHPSESSID_cookie
@@ -98,7 +99,9 @@ async def get_user_agenda(
             },
         ) as response:
             if response.status != 200:
-                logging.debug(msg=f"Error on receipt of Agenda. Status: {response.status}")
+                logging.debug(
+                    msg=f"Error on receipt of Agenda. Status: {response.status}"
+                )
             else:
                 agenda_list = []
                 try:
