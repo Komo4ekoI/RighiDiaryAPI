@@ -11,3 +11,4 @@ from ._auth_functions import (
 from ._authorize_user import authorize_user
 from ._agenda import Agenda, get_user_agenda
 from ._homework import Homework, get_user_homework
+from ._schedule import Schedule, get_user_schedule
