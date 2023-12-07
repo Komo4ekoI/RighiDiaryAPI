@@ -1,3 +1,5 @@
+__all__ = ("Agenda", "User", "Homework", "Schedule")
+
 __version__ = "0.0.7"
 __logger__ = "RighiDiary"
 
