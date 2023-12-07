@@ -1,5 +1,5 @@
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/Komo4ekoI/RighiDiaryAPI/blob/master/README.md/) [![wakatime](https://wakatime.com/badge/user/90c8afe4-47c1-4f14-9423-4474ab0618ae/project/018c3029-0cbb-4c30-a3a6-3eb80dfefcc1.svg)](https://wakatime.com/badge/user/90c8afe4-47c1-4f14-9423-4474ab0618ae/project/018c3029-0cbb-4c30-a3a6-3eb80dfefcc1)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/Komo4ekoI/RighiDiaryAPI/blob/master/LICENSE/) [![wakatime](https://wakatime.com/badge/user/90c8afe4-47c1-4f14-9423-4474ab0618ae/project/018c3029-0cbb-4c30-a3a6-3eb80dfefcc1.svg)](https://wakatime.com/badge/user/90c8afe4-47c1-4f14-9423-4474ab0618ae/project/018c3029-0cbb-4c30-a3a6-3eb80dfefcc1)
 
 ## INFO
 
