@@ -197,7 +197,9 @@ async def get_user_homework(
                             if not day or not month:
                                 raise TypeError
 
-                            current_date = datetime.date(year=year, month=month, day=day)
+                            current_date = datetime.date(
+                                year=year, month=month, day=day
+                            )
 
                             subjects_list = await get_exercises_data(
                                 result=result,
@@ -213,5 +215,8 @@ async def get_user_homework(
                             )
                     return list(reversed(subjects_list))
                 except Exception as ex:
-                    logger.debug(msg="Error when retrieving data from the diary!")
+                    logger.debug(
+                        msg="Error when retrieving data from the diary!\n "
+                        "This is a library error, file a bug report: https://github.com/Komo4ekoI/RighiDiaryAPI/issues"
+                    )
                     raise ex
