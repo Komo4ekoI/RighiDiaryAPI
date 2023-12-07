@@ -3,6 +3,7 @@ from typing import Union, List
 from ._baseprofile import BaseProfile
 from ._agenda import Agenda, get_user_agenda
 from ._homework import Homework, get_user_homework
+from ._schedule import Schedule, get_user_schedule
 
 
 class User(BaseProfile):
@@ -22,7 +23,8 @@ class User(BaseProfile):
         phone: Union[str, None],
         email: Union[str, None],
         agenda: Union[List[Agenda], None],
-        homework: Union[List[Homework], None]
+        homework: Union[List[Homework], None],
+        schedule: Union[List[Schedule], None],
     ):
         self.surname = surname
         self.name = name
@@ -34,6 +36,7 @@ class User(BaseProfile):
         super().__init__(login=login, password=password)
         self.agenda = agenda
         self.homework = homework
+        self.schedule = schedule
 
     @property
     def full_name(self) -> Union[str, None]:
@@ -67,6 +70,16 @@ class User(BaseProfile):
         self.homework = new_homework
 
         return new_homework
+
+    async def update_user_schedule(
+        self, limit: int = None, daily: bool = None
+    ) -> List[Schedule]:
+        new_schedule = await get_user_schedule(
+            login=super().login, password=super().password, limit=limit, daily=daily
+        )
+        self.schedule = new_schedule
+
+        return new_schedule
 
     def __str__(self):
         attributes = ", ".join(f"{key}={value}" for key, value in vars(self).items())
