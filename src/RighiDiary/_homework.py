@@ -119,7 +119,7 @@ async def get_user_homework(
         response = await _auth_functions.fast_auth(password=password, login=login)
 
         if not response:
-            logging.debug(msg="An error occurred when authorising to receive Homework!")
+            logger.debug(msg="An error occurred when authorising to receive Homework!")
             return None
 
         PHPSESSID_cookie = response.PHPSESSID_cookie
@@ -146,7 +146,7 @@ async def get_user_homework(
             },
         ) as response:
             if response.status != 200:
-                logging.debug(
+                logger.debug(
                     msg=f"Error on receipt of Agenda. Status: {response.status}"
                 )
                 return None
@@ -213,5 +213,5 @@ async def get_user_homework(
                             )
                     return list(reversed(subjects_list))
                 except Exception as ex:
-                    logging.debug(msg="Error when retrieving data from the diary!")
+                    logger.debug(msg="Error when retrieving data from the diary!")
                     raise ex
