@@ -1,6 +1,6 @@
 __all__ = ("Agenda", "User", "Homework", "Schedule")
 
-__version__ = "0.0.7"
+__version__ = "0.0.8"
 __logger__ = "RighiDiary"
 
 from ._user import User
