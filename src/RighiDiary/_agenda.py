@@ -103,6 +103,7 @@ async def get_user_agenda(
                 logging.debug(
                     msg=f"Error on receipt of Agenda. Status: {response.status}"
                 )
+                return None
             else:
                 agenda_list = []
                 try:
