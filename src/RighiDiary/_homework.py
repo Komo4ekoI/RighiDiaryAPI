@@ -139,7 +139,7 @@ async def get_user_homework(
                 "stato_secondario": "",
                 "permission": "",
                 "operazione": "",
-                "current_user": f"{user_id}",
+                "current_user": str(user_id),
                 "current_key": current_key,
                 "from_app": "",
                 "header": "SI",
