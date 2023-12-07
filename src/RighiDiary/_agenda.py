@@ -2,13 +2,13 @@ import aiohttp
 import datetime
 from bs4 import BeautifulSoup
 from typing import Union, List
-from logging import getLogger
+import logging
 
 from ._current_year import get_start_year
 from . import __logger__
 from . import _auth_functions
 
-logging = getLogger(__logger__ + ".Agenda")
+logger = logging.getLogger(__logger__ + ".Agenda")
 
 
 class Agenda:
@@ -73,7 +73,7 @@ async def get_user_agenda(
         response = await _auth_functions.fast_auth(password=password, login=login)
 
         if not response:
-            logging.debug(msg="An error occurred when authorising to receive Agenda!")
+            logger.debug(msg="An error occurred when authorising to receive Agenda!")
             return None
 
         PHPSESSID_cookie = response.PHPSESSID_cookie
@@ -100,7 +100,7 @@ async def get_user_agenda(
             },
         ) as response:
             if response.status != 200:
-                logging.debug(
+                logger.debug(
                     msg=f"Error on receipt of Agenda. Status: {response.status}"
                 )
                 return None
@@ -201,5 +201,8 @@ async def get_user_agenda(
                             )
                     return list(reversed(agenda_list))
                 except Exception as ex:
-                    logging.debug(msg="Error when retrieving data from the diary!")
+                    logger.debug(
+                        msg="Error when retrieving data from the diary!\n "
+                            "This is a library error, file a bug report: https://github.com/Komo4ekoI/RighiDiaryAPI/issues"
+                    )
                     raise ex
