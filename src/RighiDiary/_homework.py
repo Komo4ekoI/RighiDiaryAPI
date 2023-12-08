@@ -9,7 +9,7 @@ from ._current_year import get_start_year
 from . import __logger__
 from . import _auth_functions
 
-logger = logging.getLogger(__logger__ + "Homework")
+logger = logging.getLogger(__logger__ + ".Homework")
 
 
 class Homework:
@@ -147,7 +147,7 @@ async def get_user_homework(
         ) as response:
             if response.status != 200:
                 logger.debug(
-                    msg=f"Error on receipt of Agenda. Status: {response.status}"
+                    msg=f"Error on receipt of Homework. Status: {response.status}"
                 )
                 return None
             else:
@@ -215,7 +215,7 @@ async def get_user_homework(
                             )
                     return list(reversed(subjects_list))
                 except Exception as ex:
-                    logger.debug(
+                    logger.warning(
                         msg="Error when retrieving data from the diary!\n "
                         "This is a library error, file a bug report: https://github.com/Komo4ekoI/RighiDiaryAPI/issues"
                     )

@@ -96,69 +96,72 @@ async def get_user_schedule(
             if resp.status != 200:
                 return None
             else:
-                pattern = re.compile(r"JSON\.parse\('(.+?)'\);")
-                matches = pattern.search(await resp.text())
-                if matches:
-                    try:
-                        schedule_json = json.loads(matches.group(1))
-                    except json.decoder.JSONDecodeError:
-                        logger.debug(msg="Error in processing the received data!")
+                try:
+                    pattern = re.compile(r"JSON\.parse\('(.+?)'\);")
+                    matches = pattern.search(await resp.text())
+                    if matches:
+                        try:
+                            schedule_json = json.loads(matches.group(1))
+                        except json.decoder.JSONDecodeError:
+                            logger.debug(msg="Error in processing the received data!")
+                            return None
+                        try:
+                            schedule_list_for_process = schedule_json[
+                                f"{'elenco_ore_giornata' if daily else 'elenco_ore_totale'}"
+                            ]
+                        except KeyError:
+                            logger.debug(msg="Error in processing the received data!")
+                            return None
+
+                        if not schedule_json:
+                            logger.debug(msg="Missing schedule data!")
+                            return None
+
+                        schedule_list = []
+
+                        position = 0
+                        for entry in schedule_list_for_process:
+                            professor_name = entry["nome_professore"]
+                            professor_surname = entry["cognome_professore"]
+                            lesson_name = entry["nome_materia_sito"]
+                            date_string = entry["data_inizio_tradotta_iso"]
+                            start_time_string = entry["ora_inizio_tradotta"]
+                            end_time_string = entry["ora_fine_tradotta"]
+
+                            day_name = entry["giorno_tradotto"]
+
+                            date = datetime.datetime.strptime(
+                                date_string, "%Y-%m-%d"
+                            ).date()
+                            start_time = datetime.datetime.strptime(
+                                start_time_string, "%H:%M"
+                            ).time()
+                            end_time = datetime.datetime.strptime(
+                                end_time_string, "%H:%M"
+                            ).time()
+
+                            item = Schedule(
+                                lesson_name=lesson_name,
+                                professor_name=professor_name,
+                                professor_surname=professor_surname,
+                                date=date,
+                                start_time=start_time,
+                                end_time=end_time,
+                                day_name=day_name,
+                            )
+
+                            schedule_list.append(item)
+
+                            position += 1
+                            if limit is not None and position >= limit:
+                                break
+
+                        return schedule_list
+                    else:
                         return None
-                    try:
-                        schedule_list_for_process = schedule_json[
-                            f"{'elenco_ore_giornata' if daily else 'elenco_ore_totale'}"
-                        ]
-                    except KeyError:
-                        logger.debug(msg="Error in processing the received data!")
-                        return None
-
-                    if not schedule_json:
-                        logger.debug(msg="Missing schedule data!")
-                        return None
-
-                    schedule_list = []
-
-                    position = 0
-                    for entry in schedule_list_for_process:
-                        professor_name = entry["nome_professore"]
-                        professor_surname = entry["cognome_professore"]
-                        lesson_name = entry["nome_materia_sito"]
-                        date_string = entry["data_inizio_tradotta_iso"]
-                        start_time_string = entry["ora_inizio_tradotta"]
-                        end_time_string = entry["ora_fine_tradotta"]
-
-                        day_name = entry["giorno_tradotto"]
-
-                        date = datetime.datetime.strptime(
-                            date_string, "%Y-%m-%d"
-                        ).date()
-                        start_time = datetime.datetime.strptime(
-                            start_time_string, "%H:%M"
-                        ).time()
-                        end_time = datetime.datetime.strptime(
-                            end_time_string, "%H:%M"
-                        ).time()
-
-                        item = Schedule(
-                            lesson_name=lesson_name,
-                            professor_name=professor_name,
-                            professor_surname=professor_surname,
-                            date=date,
-                            start_time=start_time,
-                            end_time=end_time,
-                            day_name=day_name,
-                        )
-
-                        schedule_list.append(item)
-
-                        position += 1
-                        if limit is not None and position >= limit:
-                            break
-
-                    return schedule_list
-                else:
-                    logger.debug(
+                except Exception as ex:
+                    logger.warning(
                         msg="Error when retrieving data from the diary!\n "
                             "This is a library error, file a bug report: https://github.com/Komo4ekoI/RighiDiaryAPI/issues"
                     )
-                    return None
+                    raise ex
