@@ -22,13 +22,23 @@ class Schedule:
         professor_name: str,
         professor_surname: str,
     ):
-        self.lesson_name = lesson_name.title() if isinstance(lesson_name, str) else lesson_name
+        self.lesson_name = (
+            lesson_name.title() if isinstance(lesson_name, str) else lesson_name
+        )
         self.date = date
         self.start_time = start_time
         self.end_time = end_time
         self.day_name = day_name.lower() if isinstance(day_name, str) else day_name
-        self.professor_name = professor_name.title() if isinstance(professor_name, str) else professor_name
-        self.professor_surname = professor_surname.title() if isinstance(professor_surname, str) else professor_surname
+        self.professor_name = (
+            professor_name.title()
+            if isinstance(professor_name, str)
+            else professor_name
+        )
+        self.professor_surname = (
+            professor_surname.title()
+            if isinstance(professor_surname, str)
+            else professor_surname
+        )
 
     @property
     def full_professor_name(self) -> str:
