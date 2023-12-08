@@ -22,7 +22,7 @@ setuptools.setup(
     packages=setuptools.find_packages(where='src'),
     classifiers=[
         # https://pypi.org/classifiers/
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 4 - Beta',
 
         'Intended Audience :: Developers',
         'Topic :: Communications',
