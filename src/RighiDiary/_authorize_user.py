@@ -10,6 +10,18 @@ from ._marks import get_user_marks
 
 
 async def authorize_user(login: int, password: str) -> Union[User, None]:
+    """
+    Authenticates the user using login and password. Stores all available data about the user.
+
+    :param login: Login for mastercom account. Usually consists of 6 digits.
+    :param password: Password for the mastercom account.
+    :return: If the main authorisation was successful, it returns User class, otherwise it returns None.
+
+    Note:
+        Data of the following types: Agenda, Homework, Schedule, Marks do not affect the final return of data
+        from this function, if one of the above data types is None but the main authorisation was successful,
+        the function will still return User class.
+    """
     auth_response = await fast_auth(login=login, password=password)
     if not auth_response:
         return None

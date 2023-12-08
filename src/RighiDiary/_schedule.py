@@ -12,6 +12,19 @@ logger = logging.getLogger(__logger__ + "Schedule")
 
 
 class Schedule:
+    """
+    A class that stores lesson data.
+    Attributes:
+        lesson_name (str): The name of the lesson.
+        date (datetime.date): The date of the lesson.
+        start_time (datetime.time): The start time of the lesson.
+        end_time (datetime.time): The end time of the lesson.
+        day_name (str): The weekday name of the lesson.
+        professor_name (str) : The professor name.
+        professor_surname (str) : The professor surname.
+
+    """
+
     def __init__(
         self,
         lesson_name: str,
@@ -42,12 +55,20 @@ class Schedule:
 
     @property
     def full_professor_name(self) -> str:
+        """
+        Generates the full name of the professor using name and surname.
+        :return: Returns the full name of the professor.
+        """
         full_professor_name = f"{(self.professor_surname + ' ') if self.professor_surname is not None else ''}{self.professor_name if self.professor_name is not None else ''}"
 
         return full_professor_name
 
     @property
     def duration(self) -> datetime.time:
+        """
+        Calculates the duration of the lesson.
+        :return: Returns the duration of the lesson in datetime.time class.
+        """
         seconds_start = self.start_time.hour * 3600 + self.start_time.minute * 60
         seconds_end = self.end_time.hour * 3600 + self.end_time.minute * 60
 
@@ -73,6 +94,17 @@ async def get_user_schedule(
     current_key: str = None,
     user_id: int = None,
 ) -> Union[List[Schedule], None]:
+    """
+    :param login: Login for mastercom account. Usually consists of 6 digits.
+    :param password: Password for the mastercom account.
+    :param limit: The limit of data to be obtained from the diary. Important, 1 data type is not 1 day of schedule, it is 1 lesson.
+    :param daily: Switches the data acquisition mode. If True, it will search for data for the current day, otherwise it will return a list of all available data.
+    :param PHPSESSID_cookie: PHPSESSID cookie to retrieve data without re-authorisation.
+    :param messenger_cookie: messenger cookie to retrieve data without re-authorisation.
+    :param current_key: current key to retrieve data without re-authorisation.
+    :param user_id: user id to retrieve data without re-authorisation.
+    :return: Returns Righi.Schedule class if the data was successfully retrieved, otherwise returns None.
+    """
     if not PHPSESSID_cookie or not messenger_cookie or not current_key or not user_id:
         response = await _auth_functions.fast_auth(password=password, login=login)
 
@@ -104,6 +136,7 @@ async def get_user_schedule(
             },
         ) as resp:
             if resp.status != 200:
+                logger.debug(msg=f"Error on receipt of Schedule. Status: {resp.status}")
                 return None
             else:
                 try:
@@ -172,6 +205,6 @@ async def get_user_schedule(
                 except Exception as ex:
                     logger.warning(
                         msg="Error when retrieving data from the diary!\n "
-                            "This is a library error, file a bug report: https://github.com/Komo4ekoI/RighiDiaryAPI/issues"
+                        "This is a library error, file a bug report: https://github.com/Komo4ekoI/RighiDiaryAPI/issues"
                     )
                     raise ex

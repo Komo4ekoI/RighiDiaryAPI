@@ -11,6 +11,19 @@ logger = logging.getLogger(__logger__ + ".Mark")
 
 
 class Mark:
+    """
+    A class that stores mark data.
+
+    Attributes:
+        subject_name (str): The name of the subject for which the mark is assigned.
+        assessment (str): The assessment value ('7', '-', '+', 'g', 'i', '7+', '7-').
+        description (str, optional): Additional description or comments about the mark.
+        receiver_for (str): The recipient or entity for whom the mark is assigned.
+        date (datetime.date): The date when the mark was assigned.
+        notification (bool): A flag indicating whether a notification is associated with the mark.
+        notification_type (str, optional): Type of notification, if applicable (None if no notification).
+    """
+
     def __init__(
         self,
         subject_name: str,
@@ -42,6 +55,15 @@ async def get_user_marks(
     current_key: str = None,
     user_id: int = None,
 ) -> Union[List[Mark], None]:
+    """
+    :param login: Login for mastercom account. Usually consists of 6 digits.
+    :param password: Password for the mastercom account.
+    :param PHPSESSID_cookie: PHPSESSID cookie to retrieve data without re-authorisation.
+    :param messenger_cookie: messenger cookie to retrieve data without re-authorisation.
+    :param current_key: current key to retrieve data without re-authorisation.
+    :param user_id: user id to retrieve data without re-authorisation.
+    :return: Returns Righi.Mark class if the data was successfully retrieved, otherwise returns None.
+    """
     if not PHPSESSID_cookie or not messenger_cookie or not current_key or not user_id:
         response = await _auth_functions.fast_auth(password=password, login=login)
 

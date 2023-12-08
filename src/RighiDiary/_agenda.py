@@ -12,6 +12,18 @@ logger = logging.getLogger(__logger__ + ".Agenda")
 
 
 class Agenda:
+    """
+    A class representing an agenda item.
+
+    Attributes:
+        name (Union[str, None]): The name or title of the agenda item, or None if not specified.
+        description (Union[str, None]): Additional description or comments about the agenda item, or None if not specified.
+        date (datetime.date): The date of the agenda item.
+        start_time (datetime.time): The start time of the agenda item.
+        end_time (datetime.time): The end time of the agenda item.
+        professor_name (str): The name of the professor associated with the agenda item.
+    """
+
     def __init__(
         self,
         name: Union[str, None],
@@ -30,6 +42,12 @@ class Agenda:
 
     @property
     def duration(self) -> datetime.time:
+        """
+        Calculate the duration of the agenda item.
+
+        Returns:
+            datetime.time: The duration of the agenda item.
+        """
         seconds_start = self.start_time.hour * 3600 + self.start_time.minute * 60
         seconds_end = self.end_time.hour * 3600 + self.end_time.minute * 60
 
@@ -69,6 +87,15 @@ async def get_user_agenda(
     current_key: str = None,
     user_id: int = None,
 ) -> Union[List[Agenda], None]:
+    """
+    :param login: Login for mastercom account. Usually consists of 6 digits.
+    :param password: Password for the mastercom account.
+    :param PHPSESSID_cookie: PHPSESSID cookie to retrieve data without re-authorisation.
+    :param messenger_cookie: messenger cookie to retrieve data without re-authorisation.
+    :param current_key: current key to retrieve data without re-authorisation.
+    :param user_id: user id to retrieve data without re-authorisation.
+    :return: Returns Righi.Homework class if the data was successfully retrieved, otherwise returns None.
+    """
     if not PHPSESSID_cookie or not messenger_cookie or not current_key or not user_id:
         response = await _auth_functions.fast_auth(password=password, login=login)
 
@@ -203,6 +230,6 @@ async def get_user_agenda(
                 except Exception as ex:
                     logger.warning(
                         msg="Error when retrieving data from the diary!\n "
-                            "This is a library error, file a bug report: https://github.com/Komo4ekoI/RighiDiaryAPI/issues"
+                        "This is a library error, file a bug report: https://github.com/Komo4ekoI/RighiDiaryAPI/issues"
                     )
                     raise ex

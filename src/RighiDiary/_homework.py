@@ -13,6 +13,17 @@ logger = logging.getLogger(__logger__ + ".Homework")
 
 
 class Homework:
+    """
+    A class that represents homework assignment data.
+
+    Attributes:
+        subject_name (str): The name of the subject for which the homework is assigned.
+        text (str, optional): The text or description of the homework assignment.
+        date (datetime.date): The day on which the assignment is due.
+        time (datetime.time): The time at which the assignment is to be made.
+        professor_name (str): The name of the professor assigning the homework.
+    """
+
     def __init__(
         self,
         subject_name: str,
@@ -115,6 +126,15 @@ async def get_user_homework(
     current_key: str = None,
     user_id: int = None,
 ) -> Union[List[Homework], None]:
+    """
+    :param login: Login for mastercom account. Usually consists of 6 digits.
+    :param password: Password for the mastercom account.
+    :param PHPSESSID_cookie: PHPSESSID cookie to retrieve data without re-authorisation.
+    :param messenger_cookie: messenger cookie to retrieve data without re-authorisation.
+    :param current_key: current key to retrieve data without re-authorisation.
+    :param user_id: user id to retrieve data without re-authorisation.
+    :return: Returns Righi.Homework class if the data was successfully retrieved, otherwise returns None.
+    """
     if not PHPSESSID_cookie or not messenger_cookie or not current_key or not user_id:
         response = await _auth_functions.fast_auth(password=password, login=login)
 

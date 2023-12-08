@@ -3,7 +3,7 @@ __all__ = (
     "User",
     "Homework",
     "Schedule",
-    "AuthData",
+    "AuthResponse",
     "fast_auth",
     "authorize_user",
     "get_user_agenda",
@@ -17,7 +17,7 @@ __logger__ = "RighiDiary"
 
 from ._user import User
 from ._auth_functions import (
-    AuthData,
+    AuthResponse,
     fast_auth,
 )
 from ._authorize_user import authorize_user

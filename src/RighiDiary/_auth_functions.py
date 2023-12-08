@@ -9,7 +9,17 @@ from . import __logger__
 logger = logging.getLogger(__logger__ + ".Auth")
 
 
-class AuthData:
+class AuthResponse:
+    """
+    A class representing an authentication response.
+
+    Attributes:
+        messenger_cookie (str): The messenger cookie associated with the authentication.
+        PHPSESSID_cookie (str): The PHPSESSID cookie associated with the authentication.
+        current_key (str): The current authentication key.
+        mastercom_id (int): The mastercom ID associated with the authentication.
+    """
+
     def __init__(
         self,
         messenger_cookie: str,
@@ -24,6 +34,18 @@ class AuthData:
 
 
 class UserData:
+    """
+    A class representing user data.
+
+    Attributes:
+        name (str): The user's first name.
+        surname (str): The user's last name.
+        mastercom_id (int): The user's mastercom ID.
+        classes (str): The user's classes or course information.
+        email (Union[str, None]): The user's email address, or None if not available.
+        phone (Union[str, None]): The user's phone number, or None if not available.
+    """
+
     def __init__(
         self,
         name: str,
@@ -151,7 +173,18 @@ async def get_current_key(
 
 async def fast_auth(
     password: str = None, login: int = None, current_key: str = None
-) -> Union[AuthData, None]:
+) -> Union[AuthResponse, None]:
+    """
+    Perform fast user authentication.
+
+    Parameters:
+        password (str, optional): Password for the mastercom account.
+        login (int, optional): Login for mastercom account. Usually consists of 6 digits.
+        current_key (str, optional): KEY of the authorised session in the mastercom system.
+
+    Returns:
+        Union[AuthResponse, None]: An instance of AuthData if authentication is successful, otherwise None.
+    """
     if current_key is None and password is None and login is None:
         return None
 
@@ -193,7 +226,7 @@ async def fast_auth(
         logger.debug(msg="Absence of mastercom id on response!")
         return None
 
-    auth_data = AuthData(
+    auth_data = AuthResponse(
         messenger_cookie=messenger_cookie,
         PHPSESSID_cookie=PHPSESSID_cookie,
         current_key=current_key,
