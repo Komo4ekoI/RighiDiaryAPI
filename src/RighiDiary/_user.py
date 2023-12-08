@@ -55,7 +55,7 @@ class User(BaseProfile):
 
         return full_name if full_name else None
 
-    async def update_user_agenda(self) -> List[Agenda]:
+    async def update_user_agenda(self) -> Union[List[Agenda], None]:
         new_agenda = await get_user_agenda(
             login=super().login, password=super().password
         )
@@ -63,7 +63,7 @@ class User(BaseProfile):
 
         return new_agenda
 
-    async def update_user_homework(self) -> List[Homework]:
+    async def update_user_homework(self) -> Union[List[Homework], None]:
         new_homework = await get_user_homework(
             login=super().login, password=super().password
         )
@@ -73,7 +73,7 @@ class User(BaseProfile):
 
     async def update_user_schedule(
         self, limit: int = None, daily: bool = None
-    ) -> List[Schedule]:
+    ) -> Union[List[Schedule], None]:
         new_schedule = await get_user_schedule(
             login=super().login, password=super().password, limit=limit, daily=daily
         )
