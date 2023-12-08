@@ -201,7 +201,7 @@ async def get_user_agenda(
                             )
                     return list(reversed(agenda_list))
                 except Exception as ex:
-                    logger.debug(
+                    logger.warning(
                         msg="Error when retrieving data from the diary!\n "
                             "This is a library error, file a bug report: https://github.com/Komo4ekoI/RighiDiaryAPI/issues"
                     )
