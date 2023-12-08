@@ -16,3 +16,35 @@ If you find a bug and are willing to help improve the project, you can [write ab
 
 #### In progress
 
+
+## Installation
+
+The library is available on PyPi, so you can install it in the standard way:
+
+##### Windows
+```bash
+  pip install RighiDiary
+```
+##### Ubuntu/macOS
+```bash
+  pip3 install RighiDiary
+```
+## Example
+
+```Python
+from RighiDiary import authorize_user
+import asyncio
+
+my_password: str = "CoolPassword"
+my_login: int = 123456
+
+
+async def main():
+    user = await authorize_user(login=my_login, password=my_password)
+    print(user.full_name)
+    print(user.agenda[0])
+
+if __name__ == '__main__':
+    asyncio.run(main())
+```
+
