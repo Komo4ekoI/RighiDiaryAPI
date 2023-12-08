@@ -4,6 +4,7 @@ from ._baseprofile import BaseProfile
 from ._agenda import Agenda, get_user_agenda
 from ._homework import Homework, get_user_homework
 from ._schedule import Schedule, get_user_schedule
+from ._marks import Mark, get_user_marks
 
 
 class User(BaseProfile):
@@ -25,6 +26,7 @@ class User(BaseProfile):
         agenda: Union[List[Agenda], None],
         homework: Union[List[Homework], None],
         schedule: Union[List[Schedule], None],
+        marks: Union[List[Mark], None],
     ):
         self.surname = surname
         self.name = name
@@ -37,6 +39,7 @@ class User(BaseProfile):
         self.agenda = agenda
         self.homework = homework
         self.schedule = schedule
+        self.marks = marks
 
     @property
     def full_name(self) -> Union[str, None]:
@@ -80,6 +83,15 @@ class User(BaseProfile):
         self.schedule = new_schedule
 
         return new_schedule
+
+    async def update_user_marks(self) -> Union[List[Schedule], None]:
+        new_marks = await get_user_marks(
+            login=super().login,
+            password=super().password,
+        )
+        self.marks = new_marks
+
+        return new_marks
 
     def __str__(self):
         attributes = ", ".join(f"{key}={value}" for key, value in vars(self).items())

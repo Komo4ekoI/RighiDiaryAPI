@@ -6,6 +6,7 @@ from ._auth_functions import fast_auth, get_user_data, UserData
 from ._user import User
 from ._homework import get_user_homework
 from ._schedule import get_user_schedule
+from ._marks import get_user_marks
 
 
 async def authorize_user(login: int, password: str) -> Union[User, None]:
@@ -23,6 +24,7 @@ async def authorize_user(login: int, password: str) -> Union[User, None]:
         asyncio.create_task(get_user_agenda(login=login, password=password)),
         asyncio.create_task(get_user_homework(login=login, password=password)),
         asyncio.create_task(get_user_schedule(login=login, password=password)),
+        asyncio.create_task(get_user_marks(login=login, password=password)),
     ]
 
     response = await asyncio.gather(*tasks)
@@ -50,6 +52,7 @@ async def authorize_user(login: int, password: str) -> Union[User, None]:
     agenda_response = response[1]
     homework_response = response[2]
     schedule_response = response[3]
+    marks_response = response[4]
 
     user = User(
         login=login,
@@ -63,7 +66,8 @@ async def authorize_user(login: int, password: str) -> Union[User, None]:
         mastercom_id=mastercom_id,
         agenda=agenda_response,
         homework=homework_response,
-        schedule=schedule_response
+        schedule=schedule_response,
+        marks=marks_response,
     )
 
     return user
