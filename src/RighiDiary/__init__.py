@@ -1,6 +1,18 @@
-__all__ = ("Agenda", "User", "Homework", "Schedule")
+__all__ = (
+    "Agenda",
+    "User",
+    "Homework",
+    "Schedule",
+    "AuthData",
+    "fast_auth",
+    "authorize_user",
+    "get_user_agenda",
+    "get_user_homework",
+    "get_user_schedule",
+    "get_user_marks",
+)
 
-__version__ = "0.0.8"
+__version__ = "0.0.9"
 __logger__ = "RighiDiary"
 
 from ._user import User
