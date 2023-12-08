@@ -2,3 +2,4 @@ include pyproject.toml
 include *.md
 include LICENSE
 exclude tests/test*.py
+exclude conf.py

@@ -12,7 +12,7 @@ __all__ = (
     "get_user_marks",
 )
 
-__version__ = "0.0.9"
+__version__ = "1.0"
 __logger__ = "RighiDiary"
 
 from ._user import User
